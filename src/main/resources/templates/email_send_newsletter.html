@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Send email to one person</title>
+    <title>Send email to NewsLetter</title>
 
     <style>*{
         box-sizing: border-box;
@@ -136,9 +136,9 @@
         text-align: center;
     }
 
-   #MailSender > textarea, input {
-       font-size: .8rem;
-       letter-spacing: 1px;
+    #MailSender > textarea, input {
+        font-size: .8rem;
+        letter-spacing: 1px;
         padding: 10px;
         max-width: 100%;
         line-height: 1.5;
@@ -153,8 +153,6 @@
 
 
 <h2>Responsive Table</h2>
-<a th:href="@{/email_send_newsletter}"><h3>Newsletter </h3>  </a>
-
 <div class="table-wrapper">
     <table class="fl-table">
         <thead>
@@ -167,20 +165,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${users}">
+        <tr th:each="user : ${usersNewsLetter}">
             <td th:text="${user.getId()}"></td>
             <td th:text="${user.getName()}"></td>
             <td th:text="${user.getSurname()}"></td>
             <td th:text="${user.getEmail()}"></td>
             <td th:text="${user.getAge()}"></td>
         </tr>
-        </table>
+    </table>
 </div>
 
-        <tbody>
+<tbody>
 
-        <div id="MailSender">
-    <form method="post" th:action="@{/email_send}" th:object="${emails}">
+<div id="MailSender">
+    <form method="post" th:action="@{/newsletter}" th:object="${emails}">
         <label>Subject:</label>
         <input type="text" th:field="*{subject}"/>
         <label>Message</label>
@@ -188,7 +186,7 @@
         <button type="submit">Send mail</button>
 
     </form>
-        </div>
+</div>
 
 </body>
 </html>

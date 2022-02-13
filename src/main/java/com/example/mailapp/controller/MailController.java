@@ -1,47 +1,68 @@
 package com.example.mailapp.controller;
 
 import com.example.mailapp.model.NotificationEmail;
+import com.example.mailapp.repository.UserRepository;
 import com.example.mailapp.service.AutomaticMailsService;
-import com.example.mailapp.service.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
 
-@RestController
+@Controller
 @AllArgsConstructor
 public class MailController {
 
     private final AutomaticMailsService automaticMailsService;
+    private final UserRepository userRepository;
+
+
+    @RequestMapping(value = "/email_send", method = RequestMethod.GET)
+    public String goToAllEmails(Model model){
+
+        NotificationEmail notificationEmail = new NotificationEmail();
+
+
+        model.addAttribute("emails",notificationEmail);
+        model.addAttribute("users", userRepository.findAll());
+
+        return "email_send";
+    }
 
     @PostMapping("/email/send")
-    public ResponseEntity<String> sendEmail(@RequestBody NotificationEmail notificationEmail){
+    public ResponseEntity<String> sendEmail(@ModelAttribute("mail") NotificationEmail notificationEmail){
 
         automaticMailsService.sendMailToOneUser(notificationEmail);
-
-        
 
 
         return new ResponseEntity<>("Email sent to one user", HttpStatus.OK);
     }
 
-    @PostMapping("/email/all")
-    public ResponseEntity<String> sendEmailToAll(@RequestBody NotificationEmail notificationEmail){
-        automaticMailsService.sendMailToAllUsers(notificationEmail);
+    @PostMapping("/email_send")
+    public String email_send(@ModelAttribute("emails") NotificationEmail emails){
+        automaticMailsService.sendMailToAllUsers(emails);
 
-        return new ResponseEntity<>("Emails sent to all users",HttpStatus.OK);
+        return "email_send";
     }
 
-    @PostMapping("/email/news")
-    public ResponseEntity<String> sendEmailToNewsLetter(@RequestBody NotificationEmail notificationEmail){
-        automaticMailsService.sendMailToNewsLetter(notificationEmail);
+    @GetMapping("/newsletter")
+    public String goToNewsLetter(Model model){
 
-        return new ResponseEntity<>("Emails sent to newsLetter",HttpStatus.OK);
+        NotificationEmail notificationEmail = new NotificationEmail();
+
+        model.addAttribute("usersNewsLetter", userRepository.findUsersByNewsletter(true));
+        model.addAttribute("emails", notificationEmail);
+
+        return "email_send_newsletter";
+    }
+
+    @PostMapping("/newsletter")
+    public String newsletter(@ModelAttribute("emails") NotificationEmail emails){
+        automaticMailsService.sendMailToNewsLetter(emails);
+
+        return "email_send_newsletter";
     }
 
 

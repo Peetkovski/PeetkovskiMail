@@ -37,7 +37,7 @@ public class AutomaticMailsService {
 
 
         for(Users s: users) {
-            mailService.sendMail(new NotificationEmail(notificationEmail.getSubject(), s.getEmail(), notificationEmail.getBody()));
+            mailService.sendMail(new NotificationEmail(notificationEmail.getSubject() + " " + s.getName(), s.getEmail(), notificationEmail.getBody()));
         }
 
         return "Emails sent";
@@ -52,7 +52,7 @@ public class AutomaticMailsService {
 
         for(Users s: users){
 
-            mailService.sendMail(new NotificationEmail(notificationEmail.getSubject(), s.getEmail(),notificationEmail.getBody()));
+            mailService.sendMail(new NotificationEmail(notificationEmail.getSubject() + " " + s.getName(), s.getEmail(),notificationEmail.getBody()));
 
         }
 
