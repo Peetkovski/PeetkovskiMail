@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@Slf4j
 public class AutomaticMailsService {
 
     @Autowired
@@ -52,7 +53,6 @@ public class AutomaticMailsService {
         for(Users s: users){
 
             mailService.sendMail(new NotificationEmail(notificationEmail.getSubject() + " " + s.getName(), s.getEmail(),notificationEmail.getBody()));
-
         }
 
         return "NewsLetter sent";

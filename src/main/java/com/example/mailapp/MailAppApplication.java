@@ -13,9 +13,7 @@ public class MailAppApplication {
         SpringApplication.run(MailAppApplication.class, args);
 
 
-        //TODO STRONA DO ZROBIENIA I REJESTRACJI
-        //TODO STRONA DO LOGOWANIA
-        //TODO STRONA DO ZARZĄDZANIA MAILAMI
+
     }
 
 }
